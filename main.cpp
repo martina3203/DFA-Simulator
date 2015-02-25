@@ -1,7 +1,9 @@
 #include "node.h"
+#include "DFA.h"
 
 int main()
 {
-    node newNode;
+    DFA theDFA;
+    theDFA.execute();
     return 1;
 }

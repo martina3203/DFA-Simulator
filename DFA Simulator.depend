@@ -9,3 +9,23 @@
 1424654691 source:c:\users\blackie\desktop\programming projects\dfa simulator\node.cpp
 	"node.h"
 
+1424827353 source:c:\users\aaron\desktop\programming projects\dfa-simulator\node.cpp
+	"node.h"
+
+1424827353 c:\users\aaron\desktop\programming projects\dfa-simulator\node.h
+	<vector>
+	<iostream>
+
+1424829203 source:c:\users\aaron\desktop\programming projects\dfa-simulator\dfa.cpp
+	"DFA.h"
+
+1424827353 c:\users\aaron\desktop\programming projects\dfa-simulator\dfa.h
+	"node.h"
+	<string>
+	<iostream>
+	<fstream>
+
+1424827637 source:c:\users\aaron\desktop\programming projects\dfa-simulator\main.cpp
+	"node.h"
+	"DFA.h"
+

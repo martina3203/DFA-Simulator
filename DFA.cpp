@@ -7,15 +7,56 @@ DFA::DFA()
 
 DFA::~DFA()
 {
-    //Destructor
+    //clean up node list
+    for (unsigned int i = 0; i < nodeList.size(); i++)
+    {
+        node * currentNode = nodeList.at(i);
+        delete currentNode;
+    }
 }
 
 //Executes the whole DFA
 void DFA::execute()
 {
+    std::string fileName;
+    bool fileOpened = false;
     //Ask user for filename
-    //If valid, opens, else return
+    while (fileOpened == false)
+    {
+        std::cout << "Please insert a file name" << std::endl;
+        std::cin >> fileName;
+        //If valid, opens, else return
+        fileOpened = readFile(fileName);
+        if (fileOpened == true)
+        {
+            std::cout << "File opened." << std::endl;
+            fileOpened = true;
+        }
+        else
+        {
+            std::cout << "Invalid file name. Try again." << std::endl;
+            fileOpened = false;
+        }
+
+    }
     //Ask user for string
+    std::string testString = "";
+    std::cout << "Now, please input a string to test:" << std::endl;
+    std::cin >> testString;
+    if (testString == "quit")
+    {
+        //User wants to quit
+        std::cout << "Exiting..." << std::endl;
+        return;
+    }
+    else if (checkError(testString) == true)
+    {
+        findTraversal(testString);
+    }
+    else
+    {
+        std::cout << "String contains characters which are not available in the alphabet. Please try again." << std::endl;
+    }
     //If string is "quit", exit, else check to see if it's valid
 }
 
@@ -28,19 +69,107 @@ bool DFA::readFile(std::string fileName)
     if (inputFile.is_open())
     {
         //Carry out read in
+        //First line is the final states, save for later
+        std::string firstLine;
+        std::getline(inputFile,firstLine);
+        //The following lines are connections, parse until end of file
+        while (!inputFile.eof())
+        {
+            int firstNumber = -1;
+            int secondNumber = -1;
+            char symbol = ' ';
+            //Grab the values per line
+            inputFile >> firstNumber;
+            inputFile >> symbol;
+            inputFile >> secondNumber;
 
+            if ((firstNumber == -1) && (secondNumber == -1) && (symbol == ' '))
+            {
+                //This handles the case of an extra endline.
+                //This means simply not to add it
+            }
+            else
+            {
+                //Print, Add it to the set
+                std::cout << firstNumber << " " << symbol << " " << secondNumber << std::endl;
+                addConnection(firstNumber,secondNumber,symbol);
+            }
+        }
         return true;
     }
     else
     {
+        //Invalid file
         return false;
     }
 }
 
 //Adds a connection between two nodes in the DFA
-void DFA::addConnection(int startNode, int endNode, char symbol)
+void DFA::addConnection(int firstNumber, int secondNumber, char symbol)
 {
-    return;
+    bool nodeFound = false;
+    node * firstNode = NULL;
+    //Ensure that the first number is already in the list
+    for (unsigned int i = 0; i < nodeList.size(); i++)
+    {
+        node * currentNode = nodeList.at(i);
+        if (firstNumber == currentNode -> returnStateName())
+        {
+            //This node already exists
+            nodeFound = true;
+            firstNode = currentNode;
+            break;
+        }
+    }
+    //If the node doesn't exist yet
+    if (nodeFound == false)
+    {
+        //Create a node if there isn't one already
+        node * newNode = new node(firstNumber);
+        firstNode = newNode;
+    }
+
+    //Ensure that the symbol is in the list
+    bool symbolFound = false;
+    for (unsigned int i = 0; i < validAlphabetList.size(); i++)
+    {
+        char currentSymbol = validAlphabetList.at(i);
+        if (symbol == currentSymbol)
+        {
+            //This node already exists
+            symbolFound = true;
+            break;
+        }
+    }
+    if (symbolFound == false)
+    {
+        //If not present, add to list
+        validAlphabetList.push_back(symbol);
+    }
+
+    nodeFound = false;
+    node * secondNode = NULL;
+    //Ensure that the second number is already in the list
+    for (unsigned int i = 0; i < nodeList.size(); i++)
+    {
+        node * currentNode = nodeList.at(i);
+        if (secondNumber == currentNode -> returnStateName())
+        {
+            //This node already exists
+            nodeFound = true;
+            secondNode = currentNode;
+            break;
+        }
+    }
+    if (nodeFound == false)
+    {
+        //Create a node if there isn't one already
+        node * newNode = new node(secondNumber);
+        secondNode = newNode;
+    }
+
+    //Finally, add the connection to the first node
+    firstNode -> addConnection(symbol,secondNode);
 }
 
 //Checks to see if the string is valid or not before testing it
