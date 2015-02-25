@@ -16,14 +16,15 @@
 	<vector>
 	<iostream>
 
-1424829203 source:c:\users\aaron\desktop\programming projects\dfa-simulator\dfa.cpp
+1424831176 source:c:\users\aaron\desktop\programming projects\dfa-simulator\dfa.cpp
 	"DFA.h"
 
-1424827353 c:\users\aaron\desktop\programming projects\dfa-simulator\dfa.h
+1424831090 c:\users\aaron\desktop\programming projects\dfa-simulator\dfa.h
 	"node.h"
 	<string>
 	<iostream>
 	<fstream>
+	<sstream>
 
 1424827637 source:c:\users\aaron\desktop\programming projects\dfa-simulator\main.cpp
 	"node.h"

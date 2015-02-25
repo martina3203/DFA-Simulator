@@ -41,23 +41,27 @@ void DFA::execute()
     }
     //Ask user for string
     std::string testString = "";
-    std::cout << "Now, please input a string to test:" << std::endl;
-    std::cin >> testString;
-    if (testString == "quit")
+    while (true)
     {
-        //User wants to quit
-        std::cout << "Exiting..." << std::endl;
-        return;
+        std::cout << "Now, please input a string to test:" << std::endl;
+        std::cin >> testString;
+
+        if (testString == "quit")
+        {
+            //User wants to quit
+            std::cout << "Exiting..." << std::endl;
+            return;
+        }
+        else if (checkError(testString) == true)
+        {
+            findTraversal(testString);
+        }
+        else
+        {
+            std::cout << "String contains characters which are not available in the alphabet. Please try again." << std::endl;
+        }
     }
-    else if (checkError(testString) == true)
-    {
-        findTraversal(testString);
-    }
-    else
-    {
-        std::cout << "String contains characters which are not available in the alphabet. Please try again." << std::endl;
-    }
-    //If string is "quit", exit, else check to see if it's valid
+    return;
 }
 
 //Reads in a file and adds components of file to the DFA
@@ -95,6 +99,34 @@ bool DFA::readFile(std::string fileName)
                 addConnection(firstNumber,secondNumber,symbol);
             }
         }
+        //Now we set the final states
+        std::string parsingString = "";
+        //We parse the string
+        for (unsigned int i = 0; i < firstLine.size(); i++)
+        {
+            if ((firstLine.at(i) != ' ') && (i != firstLine.size() - 1))
+            {
+                parsingString = parsingString + firstLine.at(i);
+            }
+            else if (parsingString != "")
+            {
+                //Convert to Integer
+                int Result;
+                std::istringstream convert(parsingString);
+                convert >> Result;
+                parsingString = "";
+                //Find corresponding integer
+                for (unsigned int j = 0; j < nodeList.size(); j++)
+                {
+                    node * currentNode = nodeList.at(j);
+                    if (currentNode -> returnStateName() == Result)
+                    {
+                        //Found node, make final
+                        currentNode -> makeFinal();
+                    }
+                }
+            }
+        }
         return true;
     }
     else
@@ -127,6 +159,7 @@ void DFA::addConnection(int firstNumber, int secondNumber, char symbol)
         //Create a node if there isn't one already
         node * newNode = new node(firstNumber);
         firstNode = newNode;
+        nodeList.push_back(firstNode);
     }
 
     //Ensure that the symbol is in the list
@@ -166,6 +199,7 @@ void DFA::addConnection(int firstNumber, int secondNumber, char symbol)
         //Create a node if there isn't one already
         node * newNode = new node(secondNumber);
         secondNode = newNode;
+        nodeList.push_back(secondNode);
     }
 
     //Finally, add the connection to the first node
@@ -178,7 +212,7 @@ bool DFA::checkError(std::string inputString)
     bool isValid = true;
     for (unsigned int i = 0; i < inputString.size(); i++)
     {
-        for (unsigned int j = 0; j < validAlphabetList.size(); i++)
+        for (unsigned int j = 0; j < validAlphabetList.size(); j++)
         {
             //If this letter of the input string exists in the valid alphabet
             if (inputString.at(i) == validAlphabetList.at(j))
@@ -199,9 +233,13 @@ bool DFA::checkError(std::string inputString)
             return isValid;
         }
     }
+    return true;
 }
 
+//Executes traversal of the graph
 bool DFA::findTraversal(std::string inputString)
 {
-
+    //Assuming we are starting from the integer 0
+    //Parse string, moving from state to state
+    //Record traversal, display to user
 }
