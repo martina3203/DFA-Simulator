@@ -1,0 +1,11 @@
+# depslib dependency file v1.0
+1424654818 source:c:\users\blackie\desktop\programming projects\dfa simulator\main.cpp
+	"node.h"
+
+1424654680 c:\users\blackie\desktop\programming projects\dfa simulator\node.h
+	<vector>
+	<iostream>
+
+1424654691 source:c:\users\blackie\desktop\programming projects\dfa simulator\node.cpp
+	"node.h"
+
