@@ -29,7 +29,6 @@ void DFA::execute()
         fileOpened = readFile(fileName);
         if (fileOpened == true)
         {
-            std::cout << "File opened." << std::endl;
             fileOpened = true;
         }
         else
@@ -123,7 +122,7 @@ bool DFA::readFile(std::string fileName)
                     {
                         //Found node, make final
                         currentNode -> makeFinal();
-                        std::cout << Result << " is Final.";
+                        std::cout << Result << " is Final. ";
                     }
                 }
             }
@@ -262,12 +261,12 @@ bool DFA::findTraversal(std::string inputString)
     //Determine if this is valid for the machine
     if (traverseNode -> isFinal() == true)
     {
-        std::cout << "This string is accepted by the machine." << std::endl;
+        std::cout << "This string is ACCEPTED by the machine." << std::endl;
         return true;
     }
     else
     {
-        std::cout << "This string is not accepted by the machine." << std::endl;
+        std::cout << "This string is NOT ACCEPTED by the machine." << std::endl;
         return false;
     }
 
