@@ -30,3 +30,24 @@
 	"node.h"
 	"DFA.h"
 
+1424964316 source:c:\users\blackie\desktop\programming projects\dfa simulator\dfa-simulator\main.cpp
+	"node.h"
+	"DFA.h"
+
+1424654680 c:\users\blackie\desktop\programming projects\dfa simulator\dfa-simulator\node.h
+	<vector>
+	<iostream>
+
+1424964315 c:\users\blackie\desktop\programming projects\dfa simulator\dfa-simulator\dfa.h
+	"node.h"
+	<string>
+	<iostream>
+	<fstream>
+	<sstream>
+
+1424654691 source:c:\users\blackie\desktop\programming projects\dfa simulator\dfa-simulator\node.cpp
+	"node.h"
+
+1424966480 source:c:\users\blackie\desktop\programming projects\dfa simulator\dfa-simulator\dfa.cpp
+	"DFA.h"
+

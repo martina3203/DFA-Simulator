@@ -104,14 +104,14 @@ bool DFA::readFile(std::string fileName)
         //We parse the string
         for (unsigned int i = 0; i < firstLine.size(); i++)
         {
-            if ((firstLine.at(i) != ' ') && (i != firstLine.size() - 1))
+            if (firstLine.at(i) != ' ')
             {
                 parsingString = parsingString + firstLine.at(i);
             }
-            else if (parsingString != "")
+            if ((parsingString != "") && ((firstLine.at(i) == ' ') || (i == firstLine.size()-1)))
             {
                 //Convert to Integer
-                int Result;
+                int Result = -1;
                 std::istringstream convert(parsingString);
                 convert >> Result;
                 parsingString = "";
@@ -123,6 +123,7 @@ bool DFA::readFile(std::string fileName)
                     {
                         //Found node, make final
                         currentNode -> makeFinal();
+                        std::cout << Result << " is Final.";
                     }
                 }
             }
@@ -240,6 +241,34 @@ bool DFA::checkError(std::string inputString)
 bool DFA::findTraversal(std::string inputString)
 {
     //Assuming we are starting from the integer 0
+    node * traverseNode = NULL;
+    for (unsigned int i = 0; i < nodeList.size(); i++)
+    {
+        node * currentNode = nodeList.at(i);
+        if (currentNode -> returnStateName() == 0)
+        {
+            traverseNode = currentNode;
+            break;
+        }
+    }
     //Parse string, moving from state to state
-    //Record traversal, display to user
+    std::cout << 0;
+    for (unsigned int i = 0; i < inputString.size(); i++)
+    {
+        traverseNode = traverseNode -> findConnection(inputString.at(i));
+        std::cout << " > " << traverseNode -> returnStateName();
+    }
+    std::cout << std::endl;
+    //Determine if this is valid for the machine
+    if (traverseNode -> isFinal() == true)
+    {
+        std::cout << "This string is accepted by the machine." << std::endl;
+        return true;
+    }
+    else
+    {
+        std::cout << "This string is not accepted by the machine." << std::endl;
+        return false;
+    }
+
 }
